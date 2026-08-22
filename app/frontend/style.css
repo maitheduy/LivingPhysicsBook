@@ -1,0 +1,558 @@
+/* ==================== GIÁO TRÌNH AI - Modern Academic UI ==================== */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --primary: #1a365d;
+  --primary-light: #2b6cb0;
+  --accent: #3182ce;
+  --accent-soft: #ebf8ff;
+  --grammar: #553c9a;
+  --grammar-soft: #faf5ff;
+  --success: #276749;
+  --danger: #c53030;
+  --text: #1a202c;
+  --text-muted: #718096;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+/* ---------- Header ---------- */
+.header {
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+  color: white;
+  margin: 0 -1.25rem 1.5rem;
+  padding: 1.25rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.logo-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin: 0.15rem 0 0;
+  font-weight: 400;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a0aec0;
+  animation: pulse 1.5s infinite;
+}
+
+.status-dot.ok {
+  background: #48bb78;
+  animation: none;
+}
+
+.status-dot.error {
+  background: #fc8181;
+  animation: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ---------- Main layout ---------- */
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid var(--border);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-header h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.card-icon {
+  font-size: 1.15rem;
+}
+
+.card-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.card-grammar {
+  border-left: 4px solid var(--grammar);
+  background: linear-gradient(to right, var(--grammar-soft), var(--surface) 40%);
+}
+
+.card-grammar .card-header h2 {
+  color: var(--grammar);
+}
+
+/* ---------- Textareas ---------- */
+.textarea-large,
+.textarea-medium {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafbfc;
+}
+
+.textarea-large:focus,
+.textarea-medium:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+  background: white;
+}
+
+.textarea-large {
+  min-height: 140px;
+}
+
+.textarea-medium {
+  min-height: 100px;
+  margin-top: 0.6rem;
+}
+
+/* ---------- Upload ---------- */
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--accent-soft);
+  color: var(--primary-light);
+  border: 1.5px dashed var(--accent);
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.upload-btn:hover {
+  background: #bee3f8;
+  border-color: var(--primary-light);
+}
+
+.btn-secondary {
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-secondary:hover {
+  background: #edf2f7;
+  color: var(--text);
+}
+
+.file-name {
+  font-size: 0.82rem;
+  color: var(--success);
+  font-weight: 500;
+}
+
+/* ---------- Action button ---------- */
+.action-area {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26, 54, 93, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(26, 54, 93, 0.45);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 1.25rem;
+}
+
+/* ---------- Progress ---------- */
+.progress-card {
+  background: var(--accent-soft);
+  border-color: #90cdf4;
+}
+
+.progress-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.step {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  padding-left: 1.6rem;
+  position: relative;
+  opacity: 0.5;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.step::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e0;
+}
+
+.step.active {
+  opacity: 1;
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.step.active::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.3);
+  animation: pulse 1s infinite;
+}
+
+.step.done {
+  opacity: 0.85;
+  color: var(--success);
+}
+
+.step.done::before {
+  background: #48bb78;
+  content: "✓";
+  font-size: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ---------- Answer ---------- */
+.answer-card {
+  border-top: 3px solid var(--primary-light);
+}
+
+.answer-content {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.answer-content h1,
+.answer-content h2,
+.answer-content h3,
+.answer-content h4 {
+  margin: 1.1rem 0 0.5rem;
+  color: var(--primary);
+}
+
+.answer-content h1 { font-size: 1.35rem; }
+.answer-content h2 { font-size: 1.2rem; }
+.answer-content h3 { font-size: 1.08rem; }
+
+.answer-content p {
+  margin-bottom: 0.85rem;
+}
+
+.answer-content ul,
+.answer-content ol {
+  margin: 0.5rem 0 0.9rem 1.4rem;
+}
+
+.answer-content li {
+  margin-bottom: 0.35rem;
+}
+
+.answer-content code {
+  background: #edf2f7;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+.answer-content pre {
+  background: #1a202c;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: 0.8rem 0;
+  font-size: 0.88rem;
+}
+
+.answer-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.answer-content blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 0.8rem 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.answer-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8rem 0;
+  font-size: 0.92rem;
+}
+
+.answer-content th,
+.answer-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.answer-content th {
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+/* MathJax spacing */
+.answer-content .MathJax {
+  margin: 0.3rem 0;
+}
+
+/* ---------- Sources ---------- */
+.sources-card {
+  border-top: 3px solid var(--success);
+}
+
+.sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.source-item {
+  background: #f0fff4;
+  border: 1px solid #c6f6d5;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+}
+
+.source-item .chapter {
+  font-weight: 700;
+  color: var(--success);
+  font-size: 0.95rem;
+}
+
+.source-item .section {
+  color: var(--text);
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.source-item .pages,
+.source-item .source-file {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.source-item .source-file {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ---------- Error ---------- */
+.error-card {
+  border-top: 3px solid var(--danger);
+  background: #fff5f5;
+}
+
+.error-message {
+  color: var(--danger);
+  font-size: 0.95rem;
+}
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+.empty-state h3 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.empty-state p {
+  max-width: 380px;
+  margin: 0 auto 1.2rem;
+  font-size: 0.95rem;
+}
+
+.empty-tips {
+  list-style: none;
+  text-align: left;
+  max-width: 320px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+}
+
+.empty-tips li {
+  padding: 0.35rem 0;
+  padding-left: 1.3rem;
+  position: relative;
+}
+
+.empty-tips li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}

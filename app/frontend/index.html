@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GIÁO TRÌNH AI</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- Marked.js for Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo-area">
+          <div class="logo-icon">📘</div>
+          <div>
+            <h1 class="title">GIÁO TRÌNH AI</h1>
+            <p class="subtitle">Hỏi • Tra cứu • Viết • Phân tích • Học tập</p>
+          </div>
+        </div>
+        <div class="header-status" id="healthStatus">
+          <span class="status-dot"></span>
+          <span class="status-text">Đang kiểm tra...</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- LEFT: Input panels -->
+      <section class="input-panel">
+        <!-- 1. Câu hỏi / Yêu cầu -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-icon">✏️</span>
+            <h2>CÂU HỎI HOẶC YÊU CẦU CỦA BẠN</h2>
+          </div>
+          <textarea
+            id="userRequest"
+            class="textarea-large"
+            placeholder="Ví dụ:&#10;&#10;Viết lại Chương 1 bằng code LaTeX theo mẫu tôi cung cấp,&#10;sử dụng phong cách hỏi–đáp Socratic.&#10;&#10;Hoặc:&#10;Chuyển động ném xiên được mô tả như thế nào?&#10;&#10;Hoặc:&#10;Giải thích Chương 5 cho sinh viên năm nhất."
+            rows="6"
+          ></textarea>
+        </div>
+
+        <!-- 2. Mẫu / Tài liệu tham khảo -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-icon">📄</span>
+            <h2>MẪU / TÀI LIỆU THAM KHẢO CHO YÊU CẦU</h2>
+          </div>
+          <p class="card-hint">Cung cấp mẫu cấu trúc hoặc tài liệu mà AI phải dựa vào khi thực hiện yêu cầu.</p>
+          <div class="upload-row">
+            <label class="upload-btn">
+              <input type="file" id="templateFile" accept=".pdf,.txt,.md,text/plain,application/pdf" hidden />
+              📎 Upload PDF / TXT
+            </label>
+            <button type="button" class="btn-secondary" id="clearTemplateFile">Xóa file</button>
+            <span class="file-name" id="templateFileName"></span>
+          </div>
+          <textarea
+            id="templateText"
+            class="textarea-medium"
+            placeholder="Hoặc nhập / chỉnh sửa văn bản mẫu tại đây...&#10;&#10;Ví dụ:&#10;1. Mở đầu&#10;2. Đặt vấn đề&#10;3. Câu hỏi gợi mở&#10;4. Phân tích&#10;5. Kết luận"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <!-- 3. Ngữ pháp của câu trả lời -->
+        <div class="card card-grammar">
+          <div class="card-header">
+            <span class="card-icon">📐</span>
+            <h2>NGỮ PHÁP CỦA CÂU TRẢ LỜI</h2>
+          </div>
+          <p class="card-hint">
+            Quy định cách AI tổ chức, diễn đạt và trình bày câu trả lời
+            (ngôn ngữ, phong cách, cấu trúc, LaTeX, trích dẫn nguồn…).
+          </p>
+          <div class="upload-row">
+            <label class="upload-btn">
+              <input type="file" id="grammarFile" accept=".pdf,.txt,.md,text/plain,application/pdf" hidden />
+              📎 Upload PDF / TXT
+            </label>
+            <button type="button" class="btn-secondary" id="clearGrammarFile">Xóa file</button>
+            <span class="file-name" id="grammarFileName"></span>
+          </div>
+          <textarea
+            id="grammarText"
+            class="textarea-medium"
+            placeholder="Ví dụ:&#10;&#10;Trả lời bằng tiếng Việt.&#10;Sử dụng phong cách Socratic.&#10;Không đưa đáp án ngay lập tức.&#10;Hãy dùng câu hỏi gợi mở để dẫn dắt người học.&#10;Công thức toán học phải viết bằng LaTeX.&#10;Câu trả lời phải dựa trên giáo trình.&#10;Luôn ghi rõ Chapter, Section, PDF page, Source PDF.&#10;Không được bịa nguồn."
+            rows="7"
+          ></textarea>
+        </div>
+
+        <!-- Nút thực hiện -->
+        <div class="action-area">
+          <button id="submitBtn" class="btn-primary">
+            <span class="btn-icon">🚀</span>
+            <span>THỰC HIỆN YÊU CẦU</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- RIGHT: Output -->
+      <section class="output-panel">
+        <!-- Progress -->
+        <div class="card progress-card" id="progressCard" hidden>
+          <div class="progress-steps" id="progressSteps">
+            <div class="step" data-step="1">Đang phân tích yêu cầu...</div>
+            <div class="step" data-step="2">Đang mở rộng truy vấn...</div>
+            <div class="step" data-step="3">Đang tìm trong giáo trình...</div>
+            <div class="step" data-step="4">Đang tổng hợp câu trả lời...</div>
+          </div>
+        </div>
+
+        <!-- Answer -->
+        <div class="card answer-card" id="answerCard" hidden>
+          <div class="card-header">
+            <span class="card-icon">🤖</span>
+            <h2>CÂU TRẢ LỜI</h2>
+          </div>
+          <div class="answer-content" id="answerContent"></div>
+        </div>
+
+        <!-- Sources -->
+        <div class="card sources-card" id="sourcesCard" hidden>
+          <div class="card-header">
+            <span class="card-icon">📚</span>
+            <h2>NGUỒN / CĂN CỨ</h2>
+          </div>
+          <div class="sources-list" id="sourcesList"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="card error-card" id="errorCard" hidden>
+          <div class="card-header">
+            <span class="card-icon">⚠️</span>
+            <h2>Đã xảy ra lỗi</h2>
+          </div>
+          <p class="error-message" id="errorMessage"></p>
+        </div>
+
+        <!-- Empty state -->
+        <div class="card empty-state" id="emptyState">
+          <div class="empty-icon">🎓</div>
+          <h3>Sẵn sàng hỗ trợ học tập</h3>
+          <p>Nhập câu hỏi hoặc yêu cầu bên trái, tùy chọn thêm mẫu và ngữ pháp trả lời, rồi nhấn <strong>THỰC HIỆN YÊU CẦU</strong>.</p>
+          <ul class="empty-tips">
+            <li>Hỏi khái niệm, định luật, công thức</li>
+            <li>Yêu cầu giải thích theo phong cách Socratic</li>
+            <li>Viết lại chương / section bằng LaTeX</li>
+            <li>So sánh các hiện tượng vật lý</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>GIÁO TRÌNH AI · Dựa trên giáo trình Vật lý · RAG + GPT</span>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
